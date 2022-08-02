@@ -55,7 +55,7 @@ int main(int, char **)
     try
     {
         MyGLWindow window{};
-
+        window.Setup();
         window.Run();
     }
     catch (std::exception exc)

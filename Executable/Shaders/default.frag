@@ -1,6 +1,6 @@
 #version 460
-in vec4 Color;
-int main()
+out vec4 fragColor;
+void main()
 {
-    gl_FragColor = Color;
+    fragColor = vec4(1.0, 0.0, 0.0, 1.0);
 }

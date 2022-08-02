@@ -17,9 +17,9 @@ namespace MyGL
             if (logLenght > 0)
             {
                 unsigned int written;
-                unsigned char *log;
-                glGetShaderInfoLog(shaderPtr, logLenght, (GLsizei *)written, (GLchar *)log);
-                std::cerr << *log << std::endl;
+                unsigned char log [1024];
+                glGetShaderInfoLog(shaderPtr, logLenght, (GLsizei *)&written, (GLchar *)log);
+                std::cerr << log << std::endl;
             }
             return true;
         }

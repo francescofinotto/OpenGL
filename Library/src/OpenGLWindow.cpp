@@ -24,7 +24,6 @@ namespace MyGL
 
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
             throw std::runtime_error("Cannot load opengl functions");
-        Setup();
     }
 
     OpenGLWindow::~OpenGLWindow()
@@ -35,7 +34,9 @@ namespace MyGL
     {
         while (!glfwWindowShouldClose(static_cast<GLFWwindow *>(mWindowHandler)))
         {
+
             glfwMakeContextCurrent(static_cast<GLFWwindow *>(mWindowHandler));
+            glClear(GL_COLOR_BUFFER_BIT |GL_DEPTH_BUFFER_BIT);
             Update();
 
             glfwSwapBuffers(static_cast<GLFWwindow *>(mWindowHandler));
