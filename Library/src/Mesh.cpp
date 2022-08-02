@@ -27,7 +27,7 @@ namespace MyGL::Mesh
     {
         glGenBuffers(1, &vbo);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBufferData(GL_ARRAY_BUFFER, sizeof Vertex * mesh->GetBuffer().size(), &mesh->GetBuffer()[0], GL_STATIC_DRAW);
+        glBufferData(GL_ARRAY_BUFFER, sizeof (Vertex) * mesh->GetBuffer().size(), &mesh->GetBuffer(), GL_STATIC_DRAW);
     }
     Renderer::~Renderer()
     {
