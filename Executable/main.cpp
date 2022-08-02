@@ -3,8 +3,11 @@
 #include <stdexcept>
 int main(int, char**) {
     try{
-        OpenGLWindow t{};
-        t.Run();
+        MyGL::OpenGLWindow window{};
+
+        window.Run();
+
+
     }catch(std::exception exc){
         std::cout<<exc.what()<<std::endl;
     }catch(...)

@@ -1,13 +1,18 @@
 #pragma once
-
-class OpenGLWindow
+#include <functional>
+namespace MyGL
 {
-public:
-    OpenGLWindow();
-    virtual ~OpenGLWindow();
-    virtual void Run();
-private:
-    typedef void* WindowHandler;
-    WindowHandler mWindowHandler;
-};
 
+    class OpenGLWindow
+    {
+    public:
+        OpenGLWindow();
+        virtual ~OpenGLWindow();
+        virtual void Run();
+
+    private:
+        typedef void *WindowHandler;
+        WindowHandler mWindowHandler;
+    };
+
+} // namespace MyGL
