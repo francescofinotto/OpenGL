@@ -42,7 +42,7 @@ namespace MyGL::Mesh
         private:
             std::shared_ptr<Mesh> mesh;
             std::shared_ptr<ShaderProgram> shader;
-            unsigned int vbo;
+            unsigned int vao;
     };
     
 } // namespace MyGL::Shapes
