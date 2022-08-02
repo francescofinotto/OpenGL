@@ -35,6 +35,7 @@ namespace MyGL::Mesh
     }
     void Renderer::Render()
     {
+        shader->Bind();
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
         glDrawArrays(GL_TRIANGLES, 0, mesh->GetBuffer().size());
     }
