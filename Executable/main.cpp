@@ -1,6 +1,14 @@
 #include <iostream>
-#include "Test.h"
-
+#include "OpenGLWindow.h"
+#include <stdexcept>
 int main(int, char**) {
-    Test t{};
+    try{
+        OpenGLWindow t{};
+        t.Run();
+    }catch(std::exception exc){
+        std::cout<<exc.what()<<std::endl;
+    }catch(...)
+    {
+        std::cout<<"Unknow error"<<std::endl;
+    }
 }
