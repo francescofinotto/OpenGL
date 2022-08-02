@@ -33,9 +33,12 @@ namespace MyGL
     }
     void OpenGLWindow::Run()
     {
+        isRunning= true;
         while (!glfwWindowShouldClose(static_cast<GLFWwindow *>(mWindowHandler)))
         {
+            glfwMakeContextCurrent(static_cast<GLFWwindow *>(mWindowHandler));
             Update();
+            
             glfwSwapBuffers(static_cast<GLFWwindow *>(mWindowHandler));
             glfwPollEvents();
         }

@@ -13,13 +13,13 @@ namespace MyGL
         if (GL_FALSE == result)
         {
             int logLenght;
-            glGetShaderiv(shaderPtr, GL_INFO_LOG_LENGTH,&logLenght);
-            if(logLenght>0)
+            glGetShaderiv(shaderPtr, GL_INFO_LOG_LENGTH, &logLenght);
+            if (logLenght > 0)
             {
                 unsigned int written;
                 unsigned char *log;
-                glGetShaderInfoLog(shaderPtr, logLenght, (GLsizei*) written, (GLchar *)log);
-                std::cerr<<*log<<std::endl;
+                glGetShaderInfoLog(shaderPtr, logLenght, (GLsizei *)written, (GLchar *)log);
+                std::cerr << *log << std::endl;
             }
             return true;
         }
@@ -32,13 +32,13 @@ namespace MyGL
         if (GL_FALSE == result)
         {
             int logLenght;
-            glGetShaderiv(shaderPtr, GL_INFO_LOG_LENGTH,&logLenght);
-            if(logLenght>0)
+            glGetShaderiv(shaderPtr, GL_INFO_LOG_LENGTH, &logLenght);
+            if (logLenght > 0)
             {
                 unsigned int written;
                 unsigned char *log;
-                glGetShaderInfoLog(shaderPtr, logLenght, (GLsizei*) written, (GLchar *)log);
-                std::cerr<<*log<<std::endl;
+                glGetShaderInfoLog(shaderPtr, logLenght, (GLsizei *)written, (GLchar *)log);
+                std::cerr << *log << std::endl;
             }
             return true;
         }
@@ -78,7 +78,21 @@ namespace MyGL
     {
         glDeleteShader(shaderPtr);
     }
-
+    Shader::Shader(Shader &&other)
+    {
+        if (this == &other)
+            return;
+        shaderPtr = other.shaderPtr;
+        other.shaderPtr = 0;
+    }
+    Shader &Shader::operator=(Shader &&other)
+    {
+        if (this == &other)
+            return *this;
+        shaderPtr = other.shaderPtr;
+        other.shaderPtr = 0;
+        return *this;
+    }
     unsigned int Shader::GetShaderPtr()
     {
         return shaderPtr;
@@ -92,10 +106,24 @@ namespace MyGL
         glLinkProgram(shaderPtr);
         glDetachShader(shaderPtr, vertex.GetShaderPtr());
         glDetachShader(shaderPtr, fragment.GetShaderPtr());
-        if(LinkingHasErrorAndLog(shaderPtr))
-        throw std::runtime_error("Error linking shader program");
+        if (LinkingHasErrorAndLog(shaderPtr))
+            throw std::runtime_error("Error linking shader program");
     }
-
+    ShaderProgram::ShaderProgram(ShaderProgram &&other)
+    {
+        if (this == &other)
+            return;
+        shaderPtr = other.shaderPtr;
+        other.shaderPtr = 0;
+    }
+    ShaderProgram &ShaderProgram::operator=(ShaderProgram &&other)
+    {
+        if (this == &other)
+            return *this;
+        shaderPtr = other.shaderPtr;
+        other.shaderPtr = 0;
+        return *this;
+    }
     ShaderProgram::~ShaderProgram()
     {
         glDeleteProgram(shaderPtr);

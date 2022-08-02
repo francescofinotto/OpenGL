@@ -23,7 +23,7 @@ namespace MyGL
 
         size_t size()
         {
-            return size;
+            return count;
         }
 
     private:
