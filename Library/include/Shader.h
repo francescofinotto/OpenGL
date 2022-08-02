@@ -19,6 +19,7 @@ namespace MyGL
     private:
         unsigned int shaderPtr;
     };
+    
     class ShaderProgram
     {
     public:
