@@ -7,7 +7,7 @@
 
 namespace MyGL
 {
-    OpenGLWindow::OpenGLWindow()
+    OpenGLWindow::OpenGLWindow(std::string title)
     {
         if (!glfwInit())
             throw std::runtime_error("Cannot init GLFW");
@@ -15,7 +15,7 @@ namespace MyGL
         glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
         glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
-        mWindowHandler = glfwCreateWindow(640, 480, "My Title", NULL, NULL);
+        mWindowHandler = glfwCreateWindow(640, 480, title.c_str(), NULL, NULL);
 
         if (nullptr == mWindowHandler)
             throw std::runtime_error("Cannot create GLFW Window");
@@ -24,6 +24,7 @@ namespace MyGL
 
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
             throw std::runtime_error("Cannot load opengl functions");
+        Setup();
     }
 
     OpenGLWindow::~OpenGLWindow()
@@ -34,9 +35,11 @@ namespace MyGL
     {
         while (!glfwWindowShouldClose(static_cast<GLFWwindow *>(mWindowHandler)))
         {
+            Update();
             glfwSwapBuffers(static_cast<GLFWwindow *>(mWindowHandler));
             glfwPollEvents();
         }
     }
-
+    void OpenGLWindow::Setup(){}
+    void OpenGLWindow::Update(){}
 } // namespace MyGL

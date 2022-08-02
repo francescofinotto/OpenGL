@@ -1,11 +1,1 @@
-#include "Buffer.h"
-
-Buffer::Buffer()
-{
-
-}
-
-Buffer::~Buffer()
-{
-
-}
+#include "../include/Buffer.h"

@@ -1,16 +1,34 @@
-#ifndef BUFFER_H
-#define BUFFER_H
-
 #pragma once
-
-class Buffer
+namespace MyGL
 {
-public:
-    Buffer();
-    ~Buffer();
 
-private:
+    template <class T>
+    class Buffer
+    {
+    public:
+        Buffer(size_t count)
+            : count(count), data(new T[count])
+        {
+        }
 
-};
+        ~Buffer()
+        {
+            delete[] data;
+        };
 
-#endif
+        T &operator[](size_t index)
+        {
+            return data[index];
+        }
+
+        size_t size()
+        {
+            return size;
+        }
+
+    private:
+        T *data;
+        size_t count;
+    };
+
+} // namespace MyGL

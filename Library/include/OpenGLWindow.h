@@ -6,9 +6,11 @@ namespace MyGL
     class OpenGLWindow
     {
     public:
-        OpenGLWindow();
+        OpenGLWindow(std::string title);
         virtual ~OpenGLWindow();
-        virtual void Run();
+        virtual void Setup();
+        virtual void Update();
+        void Run();
 
     private:
         typedef void *WindowHandler;
