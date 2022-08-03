@@ -10,9 +10,9 @@ namespace MyGL::Mesh
 
     Triangle::Triangle() : Mesh(3)
     {
-        vertices[0].position = glm::vec3(-0.5f, -0.5f, 0.0f);
-        vertices[1].position = glm::vec3(0.5f, -0.5f, 0.0f);
-        vertices[2].position = glm::vec3(0.0f, 0.5f, 0.0f);
+        vertices[0].position = new float[3]{-0.5f, -0.5f, 0.0f};
+        vertices[1].position = new float[3]{0.5f, -0.5f, 0.0f};
+        vertices[2].position = new float[3]{-0.0f, 0.5f, 0.0f};
     }
 
     Triangle::~Triangle()
@@ -44,7 +44,6 @@ namespace MyGL::Mesh
         shader->Bind();
         glBindVertexArray(vao);
         glDrawArrays(GL_TRIANGLES, 0, mesh->GetBuffer().size());
-
     }
     Renderer::Renderer(Renderer &&other)
     {

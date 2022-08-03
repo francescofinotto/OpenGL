@@ -1,5 +1,6 @@
 #include "../include/Shader.h"
 #include "../include/glad/glad.h"
+#include "../include/GLUtils.h"
 #include <stdexcept>
 #include <iostream>
 
@@ -17,7 +18,7 @@ namespace MyGL
             if (logLenght > 0)
             {
                 unsigned int written;
-                unsigned char log [1024];
+                unsigned char log[1024];
                 glGetShaderInfoLog(shaderPtr, logLenght, (GLsizei *)&written, (GLchar *)log);
                 std::cerr << log << std::endl;
             }
@@ -28,7 +29,7 @@ namespace MyGL
     bool LinkingHasErrorAndLog(unsigned int shaderPtr)
     {
         int result;
-        glGetShaderiv(shaderPtr, GL_LINK_STATUS, &result);
+        glGetProgramiv(shaderPtr, GL_LINK_STATUS, &result);
         if (GL_FALSE == result)
         {
             int logLenght;
@@ -37,7 +38,7 @@ namespace MyGL
             {
                 unsigned int written;
                 unsigned char *log;
-                glGetShaderInfoLog(shaderPtr, logLenght, (GLsizei *)written, (GLchar *)log);
+                glGetProgramInfoLog(shaderPtr, logLenght, (GLsizei *)written, (GLchar *)log);
                 std::cerr << *log << std::endl;
             }
             return true;
@@ -101,11 +102,15 @@ namespace MyGL
     ShaderProgram::ShaderProgram(Shader vertex, Shader fragment)
     {
         shaderPtr = glCreateProgram();
+        
         glAttachShader(shaderPtr, vertex.GetShaderPtr());
         glAttachShader(shaderPtr, fragment.GetShaderPtr());
+        
         glLinkProgram(shaderPtr);
+
         glDetachShader(shaderPtr, vertex.GetShaderPtr());
         glDetachShader(shaderPtr, fragment.GetShaderPtr());
+        
         if (LinkingHasErrorAndLog(shaderPtr))
             throw std::runtime_error("Error linking shader program");
     }
@@ -132,5 +137,6 @@ namespace MyGL
     void ShaderProgram::Bind()
     {
         glUseProgram(shaderPtr);
+
     }
 } // namespace MyGL

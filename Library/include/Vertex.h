@@ -5,7 +5,10 @@ namespace MyGL
 
     struct Vertex
     {
-        glm::vec3 position;
+        float* position = nullptr;
+        ~Vertex(){
+            delete[] position;
+        }
     };
 
 } // namespace MyGL
