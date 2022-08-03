@@ -12,8 +12,8 @@ namespace MyGL
         if (!glfwInit())
             throw std::runtime_error("Cannot init GLFW");
 
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
         mWindowHandler = glfwCreateWindow(640, 480, title.c_str(), NULL, NULL);
 
