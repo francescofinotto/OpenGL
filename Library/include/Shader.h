@@ -32,7 +32,7 @@ namespace MyGL
         void Bind();
 
     private:
-        unsigned int shaderPtr;
+        unsigned int programPtr;
     };
 
 } // namespace MyGL

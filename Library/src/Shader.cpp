@@ -26,20 +26,20 @@ namespace MyGL
         }
         return false;
     }
-    bool LinkingHasErrorAndLog(unsigned int shaderPtr)
+    bool LinkingHasErrorAndLog(unsigned int programPtr)
     {
         int result;
-        glGetProgramiv(shaderPtr, GL_LINK_STATUS, &result);
+        glGetProgramiv(programPtr, GL_LINK_STATUS, &result);
         if (GL_FALSE == result)
         {
             int logLenght;
-            glGetShaderiv(shaderPtr, GL_INFO_LOG_LENGTH, &logLenght);
+            glGetProgramiv(programPtr, GL_INFO_LOG_LENGTH, &logLenght);
             if (logLenght > 0)
             {
                 unsigned int written;
-                unsigned char *log;
-                glGetProgramInfoLog(shaderPtr, logLenght, (GLsizei *)written, (GLchar *)log);
-                std::cerr << *log << std::endl;
+                unsigned char log[1024];
+                glGetProgramInfoLog(programPtr, logLenght, (GLsizei *)&written, (GLchar *)log);
+                std::cerr << log << std::endl;
             }
             return true;
         }
@@ -72,7 +72,7 @@ namespace MyGL
         if (type == Shader::SHADER_TYPE::VERTEXT)
             shaderPtr = CreateVertexShader(shaderText);
         else if (type == Shader::SHADER_TYPE::FRAGMENT)
-            shaderPtr = CreateVertexShader(shaderText);
+            shaderPtr = CreateFragmentShader(shaderText);
     }
 
     Shader::~Shader()
@@ -101,42 +101,45 @@ namespace MyGL
 
     ShaderProgram::ShaderProgram(Shader vertex, Shader fragment)
     {
-        shaderPtr = glCreateProgram();
+        programPtr = glCreateProgram();
         
-        glAttachShader(shaderPtr, vertex.GetShaderPtr());
-        glAttachShader(shaderPtr, fragment.GetShaderPtr());
+        glAttachShader(programPtr, vertex.GetShaderPtr());
+        glAttachShader(programPtr, fragment.GetShaderPtr());
         
-        glLinkProgram(shaderPtr);
+        MyGL::Utils::DoAndLogError(
+                [&](){glLinkProgram(programPtr);},
+                "Linking: "
+            );
 
-        glDetachShader(shaderPtr, vertex.GetShaderPtr());
-        glDetachShader(shaderPtr, fragment.GetShaderPtr());
+        glDetachShader(programPtr, vertex.GetShaderPtr());
+        glDetachShader(programPtr, fragment.GetShaderPtr());
         
-        if (LinkingHasErrorAndLog(shaderPtr))
+        if (LinkingHasErrorAndLog(programPtr))
             throw std::runtime_error("Error linking shader program");
     }
     ShaderProgram::ShaderProgram(ShaderProgram &&other)
     {
         if (this == &other)
             return;
-        shaderPtr = other.shaderPtr;
-        other.shaderPtr = 0;
+        programPtr = other.programPtr;
+        other.programPtr = 0;
     }
     ShaderProgram &ShaderProgram::operator=(ShaderProgram &&other)
     {
         if (this == &other)
             return *this;
-        shaderPtr = other.shaderPtr;
-        other.shaderPtr = 0;
+        programPtr = other.programPtr;
+        other.programPtr = 0;
         return *this;
     }
     ShaderProgram::~ShaderProgram()
     {
-        glDeleteProgram(shaderPtr);
+        glDeleteProgram(programPtr);
     }
 
     void ShaderProgram::Bind()
     {
-        glUseProgram(shaderPtr);
+        glUseProgram(programPtr);
 
     }
 } // namespace MyGL

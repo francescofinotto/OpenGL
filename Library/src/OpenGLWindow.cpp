@@ -21,9 +21,12 @@ namespace MyGL
             throw std::runtime_error("Cannot create GLFW Window");
 
         glfwMakeContextCurrent(static_cast<GLFWwindow *>(mWindowHandler));
-
+        
         if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
             throw std::runtime_error("Cannot load opengl functions");
+
+        auto glslVersion = glGetString(GL_SHADING_LANGUAGE_VERSION);
+        std::cout<<"GLSL Version: "<< glslVersion <<std::endl;
     }
 
     OpenGLWindow::~OpenGLWindow()

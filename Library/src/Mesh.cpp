@@ -1,7 +1,7 @@
 #include "../include/Mesh.h"
 #include "../include/glm/glm.hpp"
 #include "../include/glad/glad.h"
-
+#include "../include/GLUtils.h"
 #include <iostream>
 
 namespace MyGL::Mesh
@@ -10,9 +10,9 @@ namespace MyGL::Mesh
 
     Triangle::Triangle() : Mesh(3)
     {
-        vertices[0].position = new float[3]{-0.5f, -0.5f, 0.0f};
-        vertices[1].position = new float[3]{0.5f, -0.5f, 0.0f};
-        vertices[2].position = new float[3]{-0.0f, 0.5f, 0.0f};
+        vertices[0].position = glm::vec3(-0.5f, -0.5f, 0.0f);
+        vertices[1].position = glm::vec3(0.5f, -0.5f, 0.0f);
+        vertices[2].position = glm::vec3(-0.0f, 0.5f, 0.0f);
     }
 
     Triangle::~Triangle()
@@ -32,8 +32,21 @@ namespace MyGL::Mesh
         unsigned int vbo;
         glGenBuffers(1, &vbo);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        glBufferData(GL_ARRAY_BUFFER, sizeof(Vertex) * mesh->GetBuffer().size(), &mesh->GetBuffer(), GL_STATIC_DRAW);
-        glVertexAttribPointer(0, 3, GL_FLOAT, 0, sizeof(Vertex), 0);
+        float positions = float[9]{
+            mesh->GetBuffer()[0].position.x,
+            mesh->GetBuffer()[0].position.y,
+            mesh->GetBuffer()[0].position.z,
+
+            mesh->GetBuffer()[1].position.x,
+            mesh->GetBuffer()[1].position.y,
+            mesh->GetBuffer()[1].position.z,
+
+            mesh->GetBuffer()[2].position.x,
+            mesh->GetBuffer()[2].position.y,
+            mesh->GetBuffer()[2].position.z,
+        };
+        glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 9, &positions, GL_STATIC_DRAW);
+        glVertexAttribPointer(0, 3, GL_FLOAT, 0, sizeof(float)*3, 0);
     }
     Renderer::~Renderer()
     {
@@ -41,9 +54,11 @@ namespace MyGL::Mesh
     }
     void Renderer::Render()
     {
-        shader->Bind();
-        glBindVertexArray(vao);
-        glDrawArrays(GL_TRIANGLES, 0, mesh->GetBuffer().size());
+        MyGL::Utils::DoAndLogError([&](){
+                shader->Bind();
+                glBindVertexArray(vao);
+                glDrawArrays(GL_TRIANGLES, 0, mesh->GetBuffer().size());
+        });
     }
     Renderer::Renderer(Renderer &&other)
     {
