@@ -15,6 +15,8 @@ public:
     ~MyGLWindow() = default;
     virtual void Setup() override
     {
+        try{
+
         std::ifstream vertFile{"Shaders/default.vert"};
         std::ifstream fragFile{"Shaders/default.frag"};
 
@@ -37,6 +39,10 @@ public:
         triangle = std::make_shared<MyGL::Mesh::Triangle>();
 
         renderer = MyGL::Mesh::Renderer(std::dynamic_pointer_cast<MyGL::Mesh::Mesh>(triangle),program);
+        }catch(std::exception exc)
+        {
+            std::cout<<"Error on Setup: "<<exc.what()<<std::endl;
+        }
     }
     virtual void Update() override
     {
