@@ -32,7 +32,7 @@ namespace MyGL::Mesh
         unsigned int vbo;
         glGenBuffers(1, &vbo);
         glBindBuffer(GL_ARRAY_BUFFER, vbo);
-        float positions = float[9]{
+        float *positions = new float[9]{
             mesh->GetBuffer()[0].position.x,
             mesh->GetBuffer()[0].position.y,
             mesh->GetBuffer()[0].position.z,
@@ -47,6 +47,7 @@ namespace MyGL::Mesh
         };
         glBufferData(GL_ARRAY_BUFFER, sizeof(float) * 9, &positions, GL_STATIC_DRAW);
         glVertexAttribPointer(0, 3, GL_FLOAT, 0, sizeof(float)*3, 0);
+        delete[] positions;
     }
     Renderer::~Renderer()
     {
